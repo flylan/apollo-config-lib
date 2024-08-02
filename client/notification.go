@@ -76,6 +76,7 @@ func (np *NotificationsParam) Get() (*Notifications, *request.Info, error) {
 		np.Client.AppID,
 		np.Client.Secret,
 		np.Client.RequestTimeout.GetNotifications,
+		info,
 	)
 	if err != nil {
 		return nil, info, err

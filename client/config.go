@@ -74,12 +74,13 @@ func (cp *ConfigsParam) buildBaseURL(format string) string {
 }
 
 // 发起获取配置请求
-func (cp *ConfigsParam) sendGetRequest(requestUrl string) (*request.Info, error) {
+func (cp *ConfigsParam) sendGetRequest(requestUrl string, info *request.Info) (*request.Info, error) {
 	return request.SendGetRequest(
 		requestUrl,
 		cp.Client.AppID,
 		cp.Client.Secret,
 		cp.Client.RequestTimeout.GetConfigs,
+		info,
 	)
 }
 
@@ -92,7 +93,7 @@ func (cp *ConfigsParam) get(info *request.Info) (*Configs, *request.Info, error)
 	}
 
 	//发送get请求
-	info, err := cp.sendGetRequest(requestUrl)
+	info, err := cp.sendGetRequest(requestUrl, info)
 	if err != nil {
 		return nil, info, err
 	}
@@ -151,7 +152,7 @@ func (cp *ConfigsParam) noCacheGet(info *request.Info) (*Configs, *request.Info,
 	}
 
 	//发送get请求
-	info, err := cp.sendGetRequest(requestUrl)
+	info, err := cp.sendGetRequest(requestUrl, info)
 	if err != nil {
 		return nil, info, err
 	}
@@ -162,7 +163,7 @@ func (cp *ConfigsParam) noCacheGet(info *request.Info) (*Configs, *request.Info,
 	}
 
 	//转换json字符串为结构体
-	var configs = new(Configs)
+	configs := &Configs{}
 	if !utils.IsByteSliceEmpty(info.ResponseBody) {
 		err = json.Unmarshal(info.ResponseBody, configs)
 		if err != nil {

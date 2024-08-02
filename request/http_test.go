@@ -12,7 +12,8 @@ func TestHttp(t *testing.T) {
 	appID := "apollo-client-test"
 	secret := "4081edabfe4e4ba097cc16defc526c2f"
 	timeout := 10 * time.Second
-	info, err := SendGetRequest(requestUrl, appID, secret, timeout)
+	info := &Info{}
+	info, err := SendGetRequest(requestUrl, appID, secret, timeout, info)
 	if err != nil {
 		t.Fatal(err)
 	}

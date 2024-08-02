@@ -62,13 +62,13 @@ func getTransport(insecureSkipVerify bool) *http.Transport {
 }
 
 // 发送http GET请求
-func SendGetRequest(requestUrl, appID, secret string, timeout time.Duration) (*Info, error) {
-	info := &Info{RequestUrl: requestUrl}
-
+func SendGetRequest(requestUrl, appID, secret string, timeout time.Duration, info *Info) (*Info, error) {
 	if requestUrl == "" {
 		return info, errors.New("RequestUrl is empty")
 	}
+	info.RequestUrl = requestUrl
 
+	//构建一个http get请求
 	req, err := http.NewRequest(METHOD_GET, requestUrl, nil)
 	if err != nil {
 		return info, err
@@ -88,6 +88,7 @@ func SendGetRequest(requestUrl, appID, secret string, timeout time.Duration) (*I
 		}
 	}
 
+	//发起请求
 	resp, err := (&http.Client{Timeout: timeout, Transport: getTransport(req.URL.Scheme == utils.SCHEME_HTTPS)}).Do(req)
 	if err != nil {
 		return info, err
@@ -95,22 +96,13 @@ func SendGetRequest(requestUrl, appID, secret string, timeout time.Duration) (*I
 	info.ResponseHeaders = resp.Header
 	info.StatusCode = resp.StatusCode
 
-	//读取Respone body
-	body, err := ReadBody(resp)
+	//读取响应体
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return info, err
 	}
+	defer func() { _ = resp.Body.Close() }()
 	info.ResponseBody = body
 
 	return info, nil
-}
-
-// 读取正文内容
-func ReadBody(resp *http.Response) (body []byte, err error) {
-	body, err = io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-	defer func() { _ = resp.Body.Close() }()
-	return body, err
 }
