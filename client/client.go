@@ -41,7 +41,7 @@ func NewClient(configServerUrl, appID string) (*Client, error) {
 	//检测主机端口是否可以访问
 	conn, err := net.DialTimeout(utils.NETWORK_TCP, urlInfo.Address, 3*time.Second)
 	if err != nil {
-		return nil, errors.New(fmt.Sprintf("Port %s on %s is closed or not reachable", urlInfo.Port, urlInfo.Host))
+		return nil, fmt.Errorf("Port %s on %s is closed or not reachable", urlInfo.Port, urlInfo.Host)
 	}
 	defer func() { _ = conn.Close() }()
 

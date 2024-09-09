@@ -159,7 +159,7 @@ func (cp *ConfigsParam) noCacheGet(info *request.Info) (*Configs, *request.Info,
 
 	//不带缓存接口，可能返回200或者304状态码
 	if !info.IsGetDataSuccess() && !info.IsDataNotModified() {
-		return nil, info, errors.New(fmt.Sprintf("%s returns HTTP status code: %d", requestUrl, info.StatusCode))
+		return nil, info, fmt.Errorf("%s returns HTTP status code: %d", requestUrl, info.StatusCode)
 	}
 
 	//转换json字符串为结构体

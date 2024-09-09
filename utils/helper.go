@@ -2,7 +2,6 @@ package utils
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net"
 	"net/url"
@@ -37,13 +36,13 @@ func ParseUrl(u string) (*UrlInfo, error) {
 	}
 
 	if urlInfo.Scheme != SCHEME_HTTP && urlInfo.Scheme != SCHEME_HTTPS {
-		return nil, errors.New(fmt.Sprintf("Only supports HTTP or HTTPS protocols, url: %s", u))
+		return nil, fmt.Errorf("Only supports HTTP or HTTPS protocols, url: %s", u)
 	}
 
 	// 检查hostname
 	hostName := urlInfo.Hostname()
 	if hostName == "" {
-		return nil, errors.New(fmt.Sprintf("Unable to resolve hostname from url: %s", u))
+		return nil, fmt.Errorf("Unable to resolve hostname from url: %s", u)
 	}
 
 	// path和query部分
@@ -66,10 +65,10 @@ func ParseUrl(u string) (*UrlInfo, error) {
 	//检查端口合法性
 	portInt, err := StrToInt64(port)
 	if err != nil {
-		return nil, errors.New(fmt.Sprintf("The host port is not an integer, current: %s", port))
+		return nil, fmt.Errorf("The host port is not an integer, current: %s", port)
 	}
 	if CompareInt64(portInt, 0) == -1 || CompareInt64(portInt, 65535) == 1 {
-		return nil, errors.New(fmt.Sprintf("The host port must be between 0 and 65535, current: %s", port))
+		return nil, fmt.Errorf("The host port must be between 0 and 65535, current: %s", port)
 	}
 
 	return &UrlInfo{
@@ -99,7 +98,7 @@ func IsByteSliceEmpty(s []byte) bool {
 	return s == nil || len(s) == 0
 }
 
-// 比较两个int64大小
+// CompareInt64 比较两个int64大小
 // num1 < num2返回-1
 // num1 > num2返回1
 // num1 == num2返回0
