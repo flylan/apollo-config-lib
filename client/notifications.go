@@ -65,7 +65,7 @@ func (np *NotificationsParam) Get() (*Notifications, *request.Info, error) {
 	requestUrl := fmt.Sprintf(
 		"%s/notifications/v2?appId=%s&cluster=%s&notifications=%s",
 		np.Client.ConfigServerUrl,
-		np.Client.AppID,
+		np.Client.AppId,
 		np.Client.ClusterName,
 		url.QueryEscape(string(nj)),
 	)
@@ -73,7 +73,7 @@ func (np *NotificationsParam) Get() (*Notifications, *request.Info, error) {
 	//发送get请求
 	info, err = request.SendGetRequest(
 		requestUrl,
-		np.Client.AppID,
+		np.Client.AppId,
 		np.Client.Secret,
 		np.Client.RequestTimeout.GetNotifications,
 		info,

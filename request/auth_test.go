@@ -69,10 +69,10 @@ func TestTimestamp(t *testing.T) {
 
 func TestBuildHttpHeaders(t *testing.T) {
 	requestUrl := "http://81.68.181.139:8080/notifications/v2?appId=apollo-client-test&cluster=default&notifications=%5B%7B%22namespaceName%22%3A%22%22%2C%22notificationId%22%3A0%7D%2C%7B%22namespaceName%22%3A%22application%22%2C%22notificationId%22%3A-1%7D%5D"
-	appID := "apollo-client-test"
+	appId := "apollo-client-test"
 	secret := "4081edabfe4e4ba097cc16defc526c2f"
 	ts1 := "1722309152123"
-	headers, err := buildHttpHeaders(requestUrl, appID, secret, ts1)
+	headers, err := buildHttpHeaders(requestUrl, appId, secret, ts1)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -80,7 +80,7 @@ func TestBuildHttpHeaders(t *testing.T) {
 	if !exists {
 		t.Fatal(fmt.Sprintf("authorization error, authorization header not found"))
 	}
-	if authorization != "Apollo "+appID+":zPGup4xc51rjWAfcxXfAFn4PCE4=" {
+	if authorization != "Apollo "+appId+":zPGup4xc51rjWAfcxXfAFn4PCE4=" {
 		t.Fatal(fmt.Sprintf("authorization error, authorization header is wrong, authorization header: %s", authorization))
 	}
 

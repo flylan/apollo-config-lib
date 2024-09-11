@@ -17,19 +17,19 @@ type RequestTimeout struct {
 
 type Client struct {
 	ConfigServerUrl string
-	AppID           string
+	AppId           string
 	ClusterName     string
 	Secret          string
 	RequestTimeout  RequestTimeout
 	address         string
 }
 
-func NewClient(configServerUrl, appID string) (*Client, error) {
+func NewClient(configServerUrl, appId string) (*Client, error) {
 	if configServerUrl == "" {
 		return nil, errors.New("ConfigServerUrl is empty")
 	}
-	if appID == "" {
-		return nil, errors.New("AppID is empty")
+	if appId == "" {
+		return nil, errors.New("AppId is empty")
 	}
 
 	//解析url
@@ -47,7 +47,7 @@ func NewClient(configServerUrl, appID string) (*Client, error) {
 
 	return &Client{
 		ConfigServerUrl: configServerUrl,
-		AppID:           appID,
+		AppId:           appId,
 		ClusterName:     DEFAULT_CLUSTER_NAME,
 		address:         urlInfo.Address,
 		RequestTimeout: RequestTimeout{

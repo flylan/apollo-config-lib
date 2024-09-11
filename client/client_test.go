@@ -12,15 +12,15 @@ var (
 
 func TestNewClient(t *testing.T) {
 	configServerUrl := "http:///81.68.181.139:8080"
-	appID := "apollo-client-test"
+	appId := "apollo-client-test"
 	var err error
-	_, err = NewClient("", appID)
+	_, err = NewClient("", appId)
 	if err == nil {
 		t.Fatal("NewClient should return error when configServerUrl is empty")
 	}
 	_, err = NewClient(configServerUrl, "")
 	if err == nil {
-		t.Fatal("NewClient should return error when appID is empty")
+		t.Fatal("NewClient should return error when appId is empty")
 	}
 	_, err = NewClient("tcp://81.68.181.139:8080", "apollo-client-test")
 	if err == nil {

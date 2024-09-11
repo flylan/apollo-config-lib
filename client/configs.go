@@ -23,7 +23,7 @@ type ConfigsParam struct {
 type Configurations map[string]string
 
 type Configs struct {
-	AppID          string         `json:"appId"`
+	AppId          string         `json:"appId"`
 	Cluster        string         `json:"cluster"`
 	NamespaceName  string         `json:"namespaceName"`
 	Configurations Configurations `json:"configurations"`
@@ -67,7 +67,7 @@ func (cp *ConfigsParam) buildBaseURL(format string) string {
 	return fmt.Sprintf(
 		format,
 		cp.Client.ConfigServerUrl,
-		cp.Client.AppID,
+		cp.Client.AppId,
 		cp.Client.ClusterName,
 		cp.NamespaceName,
 	)
@@ -77,7 +77,7 @@ func (cp *ConfigsParam) buildBaseURL(format string) string {
 func (cp *ConfigsParam) sendGetRequest(requestUrl string, info *request.Info) (*request.Info, error) {
 	return request.SendGetRequest(
 		requestUrl,
-		cp.Client.AppID,
+		cp.Client.AppId,
 		cp.Client.Secret,
 		cp.Client.RequestTimeout.GetConfigs,
 		info,
@@ -113,7 +113,7 @@ func (cp *ConfigsParam) get(info *request.Info) (*Configs, *request.Info, error)
 	}
 
 	return &Configs{
-		AppID:          cp.Client.AppID,
+		AppId:          cp.Client.AppId,
 		Cluster:        cp.Client.ClusterName,
 		NamespaceName:  cp.NamespaceName,
 		Configurations: *configurations,

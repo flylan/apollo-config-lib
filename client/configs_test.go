@@ -39,19 +39,19 @@ func TestConfigsGet(t *testing.T) {
 func checkConfigs(t *testing.T, namespaceName string, noCache bool) {
 	client, configs, info := testConfigsGet(t, namespaceName, noCache)
 	if info.StatusCode != http.StatusOK {
-		t.Fatal(fmt.Sprintf("configs.Cluster: %d not equal to 200", info.StatusCode))
+		t.Errorf("configs.Cluster: %d not equal to 200", info.StatusCode)
 	}
 	if noCache && configs.ReleaseKey == "" {
 		t.Fatal("When using an interface without cache, configs.ReleaseKey should not be empty")
 	}
-	if configs.AppID != client.AppID {
-		t.Fatal(fmt.Sprintf("configs.AppID: %s not equal to client.AppID: %s", configs.AppID, client.AppID))
+	if configs.AppId != client.AppId {
+		t.Errorf("configs.AppId: %s not equal to client.AppId: %s", configs.AppId, client.AppId)
 	}
 	if configs.Cluster != client.ClusterName {
-		t.Fatal(fmt.Sprintf("configs.Cluster: %s not equal to client.ClusterName: %s", configs.Cluster, client.ClusterName))
+		t.Errorf("configs.Cluster: %s not equal to client.ClusterName: %s", configs.Cluster, client.ClusterName)
 	}
 	if configs.NamespaceName != namespaceName {
-		t.Fatal(fmt.Sprintf("configs.Cluster: %s not equal to namespaceName: %s", configs.Cluster, namespaceName))
+		t.Errorf("configs.Cluster: %s not equal to namespaceName: %s", configs.Cluster, namespaceName)
 	}
 	if configs.Configurations == nil || len(configs.Configurations) == 0 {
 		t.Fatal("configs.Configurations is empty")
